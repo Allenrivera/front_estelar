@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/Logo.png">
+
+    <title>Banca empresarial</title>
+
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/Chart.min.css">
+    <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
+    <link rel="stylesheet" href="static/css/app.css">
+    <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="sidebar-container"></div>
+        <div id="main">
+
+            <div id="header-container"></div>
+            <div class="main-content container-fluid">
+
+                <div class="content-wrapper">
+                    <div class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <h1 class="m-0">GESTION DE CLIENTES</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Registros</h3>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h4 class="card-title"></h4>
+                                        <div class="d-flex">
+                                            <a href="" target="_blank">
+                                                <i data-feather="download">PDF</i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                        placeholder="Search">
+
+                                    <br>
+
+                                    <div class="card-tools">
+                                        <div class="input-group input-group-sm" style="width: 150px;">
+                                            <a name="crear" id="crear" class="btn btn-primary"
+                                                href="agregar_cliente.html" role="button">Agregar Cliente</a>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-hover text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>Cédula Cliente</th>
+                                                    <th>Clave</th>
+                                                    <th>Nombre</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="clientTableBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <script src="static/js/feather.min.js"></script>
+    <script src="static/js/perfect-scrollbar.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/Chart.min.js"></script>
+    <script src="static/js/apexcharts.min.js"></script>
+    <script src="static/js/dashboard.js"></script>
+    <script src="static/js/main.js"></script>
+
+
+    <script>
+        // Function to load and append a fragment
+        function loadFragment(fragmentId, targetId) {
+            fetch(fragmentId)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(targetId).innerHTML = html;
+                });
+        }
+
+        // Load Sidebar fragment
+        loadFragment('fragments/sidebar.html', 'sidebar-container');
+
+        // Load Header fragment
+        loadFragment('fragments/header.html', 'header-container');
+
+        // Load Footer fragment
+        loadFragment('fragments/footer.html', 'footer-container');
+
+        // Fetch and display the list of clients
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:8080/clientes/lista',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var tableBody = '';
+                    data.forEach(function (client) {
+                        tableBody += '<tr>';
+                        tableBody += '<td>' + (client.cedulaCliente || '') + '</td>';
+                        tableBody += '<td><input type="password" value="' + (client.clave || '') + '" readonly></td>';
+                        tableBody += '<td>' + (client.nombre || '') + '</td>';
+                        tableBody += '<td>' + (client.telefono || '') + '</td>';
+                        tableBody += '<td>';
+                        tableBody += '<a class="btn btn-info" href="actualizar_cliente.html?cedulaCliente=' + (client.cedulaCliente || '') + '">Editar</a>';
+                        tableBody += '<button class="btn btn-danger eliminar-btn" onclick="confirmDelete(\'' + (client.cedulaCliente || '') + '\')">Eliminar</button>';
+                        tableBody += '</td>';
+                        tableBody += '</tr>';
+                    });
+
+                    // Append the table body to the existing table
+                    $('#clientTableBody').html(tableBody);
+                },
+                error: function (error) {
+                    console.error('Error fetching clients:', error);
+                }
+            });
+        });
+    </script>
+
+
+    <script> function confirmDelete(cedulaCliente) {
+            var confirmDelete = confirm("¿Está seguro de que desea eliminar este cliente?");
+
+            if (confirmDelete) {
+                // User clicked "OK", proceed with deletion
+                $.ajax({
+                    url: 'http://localhost:8080/clientes/eliminar/' + cedulaCliente,
+                    type: 'DELETE',
+                    success: function () {
+                        // Reload the page or update the client list
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.error('Error deleting client:', error);
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+
+</html>

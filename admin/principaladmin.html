@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/Logo.png">
+
+    <title>Banca empresarial</title>
+
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/Chart.min.css">
+    <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
+    <link rel="stylesheet" href="static/css/app.css">
+    <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="sidebar-container"></div>
+        <div id="main">
+
+            <div id="header-container"></div>
+            <div class="main-content container-fluid">
+                <div class="page-title">
+                    <h3>Cuentas Banco Estelar</h3>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Movimientos Bancarios</h4>
+                            <div class="d-flex ">
+                                <i data-feather="download"></i>
+                            </div>
+                        </div>
+                        <div class="card-body px-0 pb-0">
+                            <div class="table-responsive">
+                                <table class='table mb-0' id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>IdMovimiento</th>
+                                            <th>NumeroCta</th>
+                                            <th>Tipo</th>
+                                            <th>Cantidad</th>
+                                            <th>Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="movimientosBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+                <div id="footer-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/feather.min.js"></script>
+    <script src="static/js/perfect-scrollbar.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/Chart.min.js"></script>
+    <script src="static/js/apexcharts.min.js"></script>
+
+    <!-- Agrega un script al final de tu HTML -->
+    <script>
+        // Función para cargar los movimientos en la tabla
+        function cargarMovimientos() {
+            fetch('http://localhost:8080/api/movimientos')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const tablaMovimientos = document.getElementById('movimientosBody');
+
+                    // Limpiar el contenido actual de la tabla
+                    tablaMovimientos.innerHTML = '';
+
+                    // Iterar sobre los datos y agregar filas a la tabla
+                    data.forEach(movimiento => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${movimiento.idMovimiento}</td>
+                            <td>${movimiento.numeroCta}</td>
+                            <td>${movimiento.tipo}</td>
+                            <td>${movimiento.cantidad}</td>
+                            <td>${movimiento.fecha}</td>
+                        `;
+                        tablaMovimientos.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error al obtener movimientos:', error));
+        }
+
+        // Llama a la función cuando la página se carga
+        window.onload = function () {
+            cargarMovimientos();
+            // Luego puedes agregar más funciones o código aquí si es necesario.
+        };
+    </script>
+
+    <script>
+        // Function to load and append a fragment
+        function loadFragment(fragmentId, targetId) {
+            fetch(fragmentId)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(targetId).innerHTML = html;
+                });
+        }
+
+        // Load Sidebar fragment
+        loadFragment('fragments/sidebar.html', 'sidebar-container');
+
+        // Load Header fragment
+        loadFragment('fragments/header.html', 'header-container');
+
+        // Load Footer fragment
+        loadFragment('fragments/footer.html', 'footer-container');
+
+    </script>
+
+
+</body>
+
+</html>

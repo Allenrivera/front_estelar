@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/Logo.png">
+
+    <title>Banca empresarial</title>
+
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/Chart.min.css">
+    <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
+    <link rel="stylesheet" href="static/css/app.css">
+    <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="sidebar-container"></div>
+        <div id="main">
+
+            <div id="header-container"></div>
+            <div class="main-content container-fluid">
+                <h2>Gestionar Cuentas</h2>
+
+                <div>
+                    <label for="filtroEstado">Filtrar por Estado:</label>
+                    <select id="filtroEstado" onchange="filtrarCuentasPorEstado()">
+                        <option value="todas">Todas</option>
+                        <option value="activas">Activas</option>
+                        <option value="inactivas">Inactivas</option>
+                    </select>
+                </div>
+
+                <table id="cuentas-table" class="table">
+                    <thead>
+                        <tr>
+                            <th>Número de Cuenta</th>
+                            <th>Titular</th>
+                            <th>Saldo</th>
+                            <th>Fecha de Apertura</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuentas-list"></tbody>
+                </table>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
+
+</div>
+<div id="footer-container"></div>
+</div>
+</div>
+</div>
+
+<script src="static/js/feather.min.js"></script>
+<script src="static/js/perfect-scrollbar.min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="static/js/Chart.min.js"></script>
+<script src="static/js/apexcharts.min.js"></script>
+<script src="static/js/dashboard.js"></script>
+<script src="static/js/main.js"></script>
+
+
+<script>
+    // Function to load and append a fragment
+    function loadFragment(fragmentId, targetId) {
+        fetch(fragmentId)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById(targetId).innerHTML = html;
+            });
+    }
+
+    // Load Sidebar fragment
+    loadFragment('fragments/sidebar.html', 'sidebar-container');
+
+    // Load Header fragment
+    loadFragment('fragments/header.html', 'header-container');
+
+    // Load Footer fragment
+    loadFragment('fragments/footer.html', 'footer-container');
+
+    // Load Cuentas
+    loadCuentas();
+
+    function loadCuentas() {
+        // Realizar una solicitud para obtener la lista de cuentas
+        fetch('http://localhost:8080/cuenta/registros')
+            .then(response => response.json())
+            .then(cuentas => {
+                // Mostrar la lista de cuentas en la tabla HTML
+                const cuentasList = document.getElementById('cuentas-list');
+                cuentas.forEach(cuenta => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                            <td>${cuenta.numeroCta}</td>
+                            <td>${cuenta.titular}</td>
+                            <td>${cuenta.saldo}</td>
+                            <td>${cuenta.fechaapertura}</td>
+                            <td>${cuenta.estado ? 'Activa' : 'Inactiva'}</td>
+                            <td></td>
+                        `;
+                    // Crear botones y añadirlos como nodos hijos a la celda 'td'
+                    const accionesCell = row.querySelector('td:last-child');
+                    accionesCell.appendChild(createActionButton('Deshabilitar', () => cambiarEstadoCuenta(cuenta.numeroCta, false)));
+                    accionesCell.appendChild(createActionButton('Activar', () => cambiarEstadoCuenta(cuenta.numeroCta, true)));
+                    accionesCell.appendChild(createActionButton('Eliminar', () => confirmarEliminarCuenta(cuenta.numeroCta)));
+                    cuentasList.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching cuentas:', error));
+    }
+
+    // Función para crear un botón de acción
+    function createActionButton(text, onClick) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.addEventListener('click', onClick);
+        return button;
+    }
+
+    function cambiarEstadoCuenta(numeroCta, nuevoEstado) {
+
+        if (confirm('¿estas seguro que deseas cambiar el estado de la cuenta?')) {
+
+            fetch(`http://localhost:8080/cuenta/${numeroCta}/cambiar-estado?estado=${nuevoEstado}`, { method: 'PUT' })
+                .then(() => {
+                    // Actualizar la lista de cuentas después de cambiar el estado
+                    document.getElementById('cuentas-list').innerHTML = '';
+                    loadCuentas();
+                })
+                .catch(error => console.error('Error cambiando el estado de la cuenta:', error));
+        }
+    }
+
+    function confirmarEliminarCuenta(numeroCta) {
+        if (confirm('¿Estás seguro de que quieres eliminar esta cuenta?')) {
+            // Realizar la solicitud para eliminar la cuenta
+            fetch(`http://localhost:8080/cuenta/${numeroCta}/eliminar`, { method: 'DELETE' })
+                .then(() => {
+                    // Actualizar la lista de cuentas después de eliminar
+                    document.getElementById('cuentas-list').innerHTML = '';
+                    loadCuentas();
+                })
+                .catch(error => console.error('Error deleting cuenta:', error));
+        }
+    }
+</script>
+
+<script>
+
+    // Función para filtrar cuentas por estado
+    function filtrarCuentasPorEstado() {
+        const filtroEstado = document.getElementById('filtroEstado').value;
+        const cuentasList = document.getElementById('cuentas-list');
+
+        // Limpiar la lista de cuentas antes de aplicar el filtro
+        cuentasList.innerHTML = '';
+
+        // Realizar una solicitud para obtener la lista de cuentas
+        fetch('http://localhost:8080/cuenta/registros')
+            .then(response => response.json())
+            .then(cuentas => {
+                // Filtrar las cuentas según el estado seleccionado
+                const cuentasFiltradas = filtroEstado === 'todas' ?
+                    cuentas :
+                    cuentas.filter(cuenta => cuenta.estado === (filtroEstado === 'activas'));
+
+                // Mostrar la lista de cuentas en la tabla HTML
+                cuentasFiltradas.forEach(cuenta => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${cuenta.numeroCta}</td>
+                        <td>${cuenta.titular}</td>
+                        <td>${cuenta.saldo}</td>
+                        <td>${cuenta.fechaapertura}</td>
+                        <td>${cuenta.estado ? 'Activa' : 'Inactiva'}</td>
+                        <td></td>
+                    `;
+                    const accionesCell = row.querySelector('td:last-child');
+                    accionesCell.appendChild(createActionButton('Deshabilitar', () => cambiarEstadoCuenta(cuenta.numeroCta, false)));
+                    accionesCell.appendChild(createActionButton('Activar', () => cambiarEstadoCuenta(cuenta.numeroCta, true)));
+                    accionesCell.appendChild(createActionButton('Eliminar', () => confirmarEliminarCuenta(cuenta.numeroCta)));
+                    cuentasList.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching cuentas:', error));
+    }
+
+</script>
+
+</body>
+
+</html>

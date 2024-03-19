@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/Logo.png">
+
+    <title>Banca empresarial</title>
+
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/Chart.min.css">
+    <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
+    <link rel="stylesheet" href="static/css/app.css">
+    <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="sidebar-container"></div>
+        <div id="main">
+
+            <div id="header-container"></div>
+            <div class="main-content container-fluid">
+                <div class="container mt-5">
+                    <h2>Actualizar Cliente</h2>
+                    <form id="updateClientForm">
+                        <div class="mb-3">
+                            <label for="cedula" class="form-label">Cédula Cliente:</label>
+                            <input type="text" class="form-control" id="cedula" name="cedula" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="clave" class="form-label">Clave:</label>
+                            <input type="password" class="form-control" id="clave" name="clave" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono:</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </form>
+                </div>
+                <div id="footer-container"></div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="static/js/feather.min.js"></script>
+        <script src="static/js/perfect-scrollbar.min.js"></script>
+        <script src="static/js/app.js"></script>
+        <script src="static/js/Chart.min.js"></script>
+        <script src="static/js/apexcharts.min.js"></script>
+        <script src="static/js/dashboard.js"></script>
+        <script src="static/js/main.js"></script>
+
+        <script>
+            function loadFragment(fragmentId, targetId) {
+                fetch(fragmentId)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById(targetId).innerHTML = html;
+                    });
+            }
+
+            // Load Sidebar fragment
+            loadFragment('fragments/sidebar.html', 'sidebar-container');
+
+            // Load Header fragment
+            loadFragment('fragments/header.html', 'header-container');
+
+            // Load Footer fragment
+            loadFragment('fragments/footer.html', 'footer-container');
+
+        </script>
+
+        <script>
+            var cedulaCliente = obtenerCedulaClienteDesdeURL();
+
+            $.ajax({
+                url: 'http://localhost:8080/clientes/obtenerPorCedula/' + cedulaCliente,
+                type: 'GET',
+                dataType: 'json',
+                success: function (cliente) {
+                    $('#cedula').val(cliente.cedulaCliente);
+                    $('#clave').val(cliente.clave);
+                    $('#nombre').val(cliente.nombre);
+                    $('#telefono').val(cliente.telefono);
+                },
+                error: function (error) {
+                    console.error('Error fetching client data:', error);
+                }
+            });
+
+            $('#updateClientForm').submit(function (event) {
+                event.preventDefault();
+
+                var formData = {
+                    cedulaCliente: $('#cedula').val(),
+                    clave: $('#clave').val(),
+                    nombre: $('#nombre').val(),
+                    telefono: $('#telefono').val()
+                };
+
+                $.ajax({
+                    url: 'http://localhost:8080/clientes/actualizar/' + formData.cedulaCliente,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function () {
+
+                        window.location.href = 'clientes_page.html';
+                    },
+                    error: function (error) {
+                        console.error('Error updating client:', error);
+                    }
+                });
+            });
+
+            function obtenerCedulaClienteDesdeURL() {
+                var urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('cedulaCliente');
+            }
+        </script>
+
+        </script>
+
+</body>
+
+</html>

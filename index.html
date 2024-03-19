@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="img/Logo.png">
+
+  <title>EstellarBank</title>
+
+
+  <link rel="stylesheet" href="index.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+
+  <div class="container">
+
+    <header>
+
+      <nav class="navbar">
+
+        <h1>EstellarBank</h1>
+
+        <button class="navbar-toggle-btn">
+          <span class="one"></span>
+          <span class="two"></span>
+          <span class="three"></span>
+        </button>
+
+        <ul class="navbar-nav">
+
+          <li><a href="#home">Inicio</a></li>
+          <li><a href="#service">Servicios</a></li>
+          <li><a href="#">Contacto</a></li>
+          <!--<li><a href="#blog">Blog</a></li> -->
+          <li><a href="admin/login.html">BancaAdmin</a></li>
+
+        </ul>
+
+        <a class="btn-primary" href="cliente/login.html">Transacciones</a>
+
+      </nav>
+
+    </header>
+
+
+
+
+
+    <main>
+
+
+      <section class="home" id="home">
+
+        <div class="home-img-box">
+          <img src="img/hero-full-app-home-gradient-EN-v3-1.webp" alt="Image for Easybank Banner" class="home-img"
+            width="100%">
+        </div>
+
+        <div class="wrapper">
+          <h1 class="home-title">Banca digital de próxima generación</h1>
+
+          <p class="home-text">
+            Lleve su vida financiera en línea. Su cuenta Estellar será una ventanilla única para gastar, ahorrar, hacer
+            presupuestos, invertir y mucho más.
+          </p>
+
+          <button class="btn-primary">Solicita Producto</button>
+        </div>
+
+      </section>
+
+
+
+
+
+      <section class="service" id="service">
+
+        <h2 class="section-title">¿Por qué elegir Estellarbank?</h2>
+
+        <p class="section-text">Aprovechamos el Open Banking para convertir su cuenta bancaria en su centro financiero.
+          Controla tus finanzas como nunca antes..</p>
+
+
+        <div class="service-card-group">
+
+
+          <div class="service-card">
+            <img src="img/icon-online.svg" alt="Icon for online banking" class="card-icon">
+
+            <h3 class="card-title">Banca en línea</h3>
+
+            <p class="card-text">Nuestras modernas aplicaciones web y móviles le permiten realizar un seguimiento de sus
+              finanzas
+              donde quiera que estés en el mundo.</p>
+          </div>
+
+          <div class="service-card">
+            <img src="img/icon-budgeting.svg" alt="Icon for simple budgeting" class="card-icon">
+
+            <h3 class="card-title">Presupuesto sencillo</h3>
+
+            <p class="card-text">Vea exactamente a dónde va su dinero cada mes. Recibe notificaciones cuando estés
+              cerca de alcanzar tus límites.</p>
+          </div>
+
+          <div class="service-card">
+            <img src="img/icon-onboarding.svg" alt="Icon for Fast Onboarding" class="card-icon">
+
+            <h3 class="card-title">Incorporación rápida</h3>
+
+            <p class="card-text">No hacemos sucursales. Abre tu cuenta en minutos en línea y comienza a tomar el control
+              de sus finanzas de inmediato.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <img src="img/icon-api.svg" alt="Icon for Open API" class="card-icon">
+
+            <h3 class="card-title">API abierta</h3>
+
+            <p class="card-text">Administre sus ahorros, inversiones, pensiones y mucho más desde una sola cuenta.
+              Seguimiento
+              Tu dinero nunca ha sido tan fácil.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+
+
+      <footer>
+
+        <div class="wrapper-flex">
+
+          <div>
+
+
+
+            
+
+          </div>
+
+          <div class="footer-nav">
+
+            
+
+
+        </div>
+
+
+        <div class="wrapper">
+
+
+
+        </div>
+
+      </footer>
+
+  </div>
+
+  <!--
+    - custom js
+  -->
+
+  <script>
+
+    const navbarToggleBtn = document.querySelector('.navbar-toggle-btn');
+    const navbarNav = document.querySelector('.navbar-nav');
+
+    const navbarToggleFunc = () => {
+      navbarToggleBtn.classList.toggle('active');
+      navbarNav.classList.toggle('active');
+    }
+
+    navbarToggleBtn.addEventListener('click', navbarToggleFunc);
+
+  </script>
+
+  <!--
+    - ionicon link
+  -->
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

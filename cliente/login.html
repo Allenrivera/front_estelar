@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="/cliente/css/login.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/Logo.png">
+
+</head>
+
+<body class="bg-light">
+
+  <div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="rounded-lg border shadow-sm w-85 h-85 max-w-md bg-white p-4">
+      <h3 class="font-weight-bold text-center mb-3">Cliente Estelar</h3>
+      <p class="text-sm text-muted mb-3 text-center">Ingresa tus datos bancarios.</p>
+
+      <form id="login-form" action="" method="POST">
+        <div class="form-group mb-3">
+          <label for="cedulacliente" class="font-weight">Cedula cliente</label>
+          <input type="text" id="cedulacliente" class="form-control" placeholder="" required>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="Clave" class="font-weight">Clave</label>
+          <input type="password" class="form-control" id="clave" name="clave" pattern="[0-9]{4,6}"
+            title="La clave debe ser un número con un mínimo de cuatro carácteres y un máximo de seis tipo numerico"
+            required>
+        </div>
+
+        <div class="form-group form-check mb-3">
+          <input type="checkbox" id="remember-me" class="form-check-input-bold">
+          <label for="remember-me" class="form-check-label">Remember me</label>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-sm">Sign in</button>
+          <a class="d-block mt-3 text-center text-muted" href="#">Forgot Password?</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#login-form').submit(function (event) {
+        event.preventDefault();
+        var cedulaCliente = $('#cedulacliente').val();
+        var clave = $('#clave').val();
+
+        $.ajax({
+          url: 'http://localhost:8080/sesionCliente/login',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ "cedulacliente": cedulaCliente, "clave": clave }),
+          success: function (response) {
+            alert("¡Inicio de sesión exitoso!");
+            // Redirigir a otra página después del inicio de sesión exitoso
+            window.location.href = "clientedashboard.html";
+          },
+          error: function (xhr, status, error) {
+            var errorMessage = xhr.responseText;
+            alert("Error: " + errorMessage);
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>
