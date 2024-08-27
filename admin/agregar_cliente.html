@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="img/Logo.png">
-
     <title>Banca empresarial</title>
 
     <link rel="stylesheet" href="static/css/bootstrap.css">
@@ -13,17 +12,16 @@
     <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
     <link rel="stylesheet" href="static/css/app.css">
     <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+    <!-- Incluir SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
     <div id="app">
-
         <div id="sidebar-container"></div>
         <div id="main">
-
             <div id="header-container"></div>
             <div class="main-content container-fluid">
-
                 <div class="container mt-5">
                     <h2>Agregar Cliente</h2>
                     <form id="addClientForm">
@@ -36,7 +34,6 @@
                             <input type="password" class="form-control" id="clave" name="clave" pattern="[0-9]{4,6}"
                                 title="La clave debe ser un número con un mínimo de cuatro carácteres y un máximo de seis tipo numerico"
                                 required>
-
                         </div>
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre:</label>
@@ -102,8 +99,16 @@
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function () {
-                    // Manejar el éxito, por ejemplo, redireccionar a la lista de clientes
-                    window.location.href = 'clientes_page.html';
+                    // Mostrar la alerta de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cliente creado exitosamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function () {
+                        // Redireccionar a la lista de clientes después de mostrar la alerta
+                        window.location.href = 'clientes_page.html';
+                    });
                 },
                 error: function (error) {
                     console.error('Error adding client:', error);

@@ -31,12 +31,12 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h6 class="card-title">Ingresa tu numero de cuenta</h6>
-                            <form class="row g-3">
+                            <form id="form-cuenta" class="row g-3">
                                 <div class="col-auto">
                                     <label for="cuenta" class="visually-hidden">cuenta</label>
                                     <input type="text" class="form-control" id="cuenta" placeholder="Cuenta">
                                 </div>
-                                
+
                                 <div class="col-auto">
                                     <button type="submit" class="btn btn-primary mb-3">Confirmar identidad</button>
                                 </div>
@@ -48,86 +48,63 @@
                 <div class="row mb-4 second-form" style="display:none;">
                     <div class="card">
 
-                        <body class="flex flex-col h-screen min-h-screen">
-                            <header class="flex items-center p-4 border-b">
-                                <div class="container d-flex align-items-center gap-4">
-                                    <a class="d-flex align-items-center gap-2" href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
-                                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                                        </svg>
-                                        <span class="font-semibold">Estelar Bank</span>
-                                    </a>
-                                    <a href="/index.html" class="btn btn-outline-secondary btn-sm ms-auto">Salir</a>
+                        <header class="flex items-center p-4 border-b">
+                            <div class="container d-flex align-items-center gap-4">
+                                <a class="d-flex align-items-center gap-2" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="h-6 w-6">
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                    </svg>
+                                    <span class="font-semibold">Estelar Bank</span>
+                                </a>
+                                <a href="/index.html" class="btn btn-outline-secondary btn-sm ms-auto">Salir</a>
+                            </div>
+                        </header>
+                        <main class="flex-1 overflow-y-auto">
+                            <div class="container d-flex flex-column gap-4 p-4 md:gap-8 md:p-6">
+                                <div class="grid gap-2">
+                                    <h1 class="text-3xl font-semibold">Mi Cuenta</h1>
+                                    <p class="text-gray-500 dark:text-gray-400 welcome-message">Bienvenido, <span
+                                            class="titular"></span></p>
                                 </div>
-                            </header>
-                            <main class="flex-1 overflow-y-auto">
-                                <div class="container d-flex flex-column gap-4 p-4 md:gap-8 md:p-6">
-                                    <div class="grid gap-2">
-                                        <h1 class="text-3xl font-semibold">Mi Cuenta</h1>
-                                        <p class="text-gray-500 dark:text-gray-400 welcome-message">Bienvenido, <span
-                                                class="titular"></span></p>
-                                    </div>
-                                    <div class="col-12 col-md-12 col-lg-12 mx-auto">
-                                        <div class="card">
-                                            <div class="card-body grid gap-1 text-sm">
-                                                <div class="font-semibold">Numero de cuenta</div>
-                                                <div class="account-number"></div>
-                                                <div class="font-semibold">Saldo</div>
-                                                <div class="balance"></div>
-                                            </div>
+                                <div class="col-12 col-md-12 col-lg-12 mx-auto">
+                                    <div class="card">
+                                        <div class="card-body grid gap-1 text-sm">
+                                            <div class="font-semibold">Numero de cuenta</div>
+                                            <div class="account-number"></div>
+                                            <div class="font-semibold">Saldo</div>
+                                            <div class="balance"></div>
                                         </div>
+                                    </div>
 
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <div class="card-title">Recent Transactions</div>
-                                            </div>
-                                            <div class="card-body p-0">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Date</th>
-                                                            <th>Type</th>
-                                                            <th>Amount</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>2022-06-01</td>
-                                                            <td>Deposit</td>
-                                                            <td>$500.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2022-06-03</td>
-                                                            <td>Withdrawal</td>
-                                                            <td>$100.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2022-06-05</td>
-                                                            <td>Deposit</td>
-                                                            <td>$250.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2022-06-10</td>
-                                                            <td>Withdrawal</td>
-                                                            <td>$200.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2022-06-15</td>
-                                                            <td>Deposit</td>
-                                                            <td>$1000.00</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title">Ultimas Transacciones</div>
                                         </div>
-                                        <div class="grid gap-4 md:grid-cols-2">
-                                            <button class="btn btn-success" id="btnConsignar">Consignar</button>
-                                            <button class="btn btn-danger" id="btnRetirar">Retirar</button>
+                                        <div class="card-body p-0">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>IdMovimiento</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Tipo</th>
+                                                        <th>Fecha</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
+                                    <div class="grid gap-4 md:grid-cols-2">
+                                        <button class="btn btn-success" id="btnConsignar">Consignar</button>
+                                        <button class="btn btn-danger" id="btnRetirar">Retirar</button>
+                                    </div>
                                 </div>
+                            </div>
+                        </main>
 
                     </div>
                 </div>
@@ -141,6 +118,8 @@
     <script src="static/js/app.js"></script>
     <script src="static/js/Chart.min.js"></script>
     <script src="static/js/apexcharts.min.js"></script>
+    <script src="/admin/static/js/dashboard.js"></script>
+    <script src="/admin/static/js/main.js"></script>
 
     <script>
         function loadFragment(fragmentId, targetId) {
@@ -159,15 +138,43 @@
     </script>
 
     <script>
-        var numeroCuenta; // Declara la variable numeroCuenta fuera de los eventos
-
-        // Captura el evento de envío del formulario para consultar la cuenta
-        document.querySelector('form').addEventListener('submit', function (event) {
-            // Evita el envío del formulario
+        document.getElementById('form-cuenta').addEventListener('submit', function (event) {
             event.preventDefault();
-            // Obtiene el número de cuenta ingresado por el usuario
-            numeroCuenta = document.getElementById('cuenta').value; // Asigna el valor a numeroCuenta
-            // Realiza la solicitud AJAX al servidor
+            var numeroCuenta = document.getElementById('cuenta').value;
+            fetch('http://localhost:8080/api/movimientos/' + numeroCuenta)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('La cuenta no fue encontrada o hubo un error interno.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var tableBody = document.querySelector('.table tbody');
+                    tableBody.innerHTML = '';
+                    data.forEach(movimiento => {
+                        var row = `<tr>
+                            
+                                        <td>${movimiento.idMovimiento}</td>
+                                        <td>${movimiento.cantidad}</td>
+                                        <td>${movimiento.tipo}</td>
+                                        <td>${movimiento.fecha}</td>
+                                    </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                    document.querySelector('.card-body').style.display = 'block';
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                });
+        });
+
+    </script>
+    <script>
+        var numeroCuenta;
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            numeroCuenta = document.getElementById('cuenta').value;
             fetch('http://localhost:8080/cuenta/' + numeroCuenta + '/datos-cliente')
                 .then(response => {
                     if (!response.ok) {
@@ -182,104 +189,118 @@
                     document.querySelector('.titular').textContent = data.titular;
                 })
                 .catch(error => {
-                    // Maneja los errores en caso de que la cuenta no exista o haya algún error interno
                     alert('Error: ' + error.message);
                 });
         });
 
-        // Captura el evento de clic en el botón de consignar
-        // Captura el evento de clic en el botón de consignar
         document.getElementById('btnConsignar').addEventListener('click', function () {
-            var cantidadTransferir = parseFloat(prompt("Ingrese la cantidad a transferir:"));
-            if (isNaN(cantidadTransferir) || cantidadTransferir <= 0) {
-                alert("Por favor, ingrese una cantidad válida.");
-                return;
-            }
-            // Realiza la solicitud AJAX al servidor para la transferencia
-            fetch('http://localhost:8080/cuenta/' + numeroCuenta + '/consignar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cantidad: cantidadTransferir,
-                }),
-            })
+    Swal.fire({
+        title: 'Ingrese la cantidad a transferir',
+        input: 'number',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+        showLoaderOnConfirm: true,
+        preConfirm: (cantidad) => {
+            if (isNaN(cantidad) || cantidad <= 0) {
+                Swal.showValidationMessage('Por favor, ingrese una cantidad válida.');
+            } else {
+                return fetch('http://localhost:8080/cuenta/' + numeroCuenta + '/consignar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cantidad: cantidad
+                    })
+                })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Ocurrió un error al procesar la transferencia');
                     }
                     return response.text();
                 })
-                .then(redirectUrl => {
-                    // Muestra una alerta SweetAlert de éxito
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Transferencia exitosa!',
-                        text: 'La transferencia se realizó correctamente.',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "clientedashboard.html"; // Redirige a la página de inicio del cliente
-                        }
-                    });
-                })
                 .catch(error => {
-                    console.error('Error:', error);
-                    // Muestra una alerta SweetAlert de error
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                        text: 'Ocurrió un error al procesar la transferencia.',
-                    });
+                    Swal.showValidationMessage(
+                        `Error: ${error}`
+                    )
                 });
-        });
-
+            }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Transferencia exitosa!',
+                text: 'La transferencia se realizó correctamente.'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "clientedashboard.html";
+                }
+            });
+        }
+    });
+});
     </script>
     <script>
 
-        // Captura el evento de clic en el botón de retirar
-        document.getElementById('btnRetirar').addEventListener('click', function () {
-            var cantidadRetirar = parseFloat(prompt("Ingrese la cantidad a retirar:"));
-            if (isNaN(cantidadRetirar) || cantidadRetirar <= 0) {
-                alert("Por favor, ingrese una cantidad válida.");
-                return;
-            }
-            // Realiza la solicitud AJAX al servidor para el retiro
-            fetch('http://localhost:8080/cuenta/' + numeroCuenta + '/retirar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cantidad: cantidadRetirar,
-                }),
-            })
+document.getElementById('btnRetirar').addEventListener('click', function () {
+    Swal.fire({
+        title: 'Ingrese la cantidad a retirar',
+        input: 'number',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+        showLoaderOnConfirm: true,
+        preConfirm: (cantidad) => {
+            if (isNaN(cantidad) || cantidad <= 0) {
+                Swal.showValidationMessage('Por favor, ingrese una cantidad válida.');
+            } else {
+                return fetch('http://localhost:8080/cuenta/' + numeroCuenta + '/retirar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cantidad: cantidad
+                    })
+                })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Ocurrió un error al procesar el retiro');
                     }
                     return response.text();
                 })
-                .then(redirectUrl => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Retiro exitoso!',
-                        text: 'El retiro se realizó correctamente.',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "clientedashboard.html";
-                        }
-                    });
-                })
                 .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                        text: 'Ocurrió un error al procesar el retiro.',
-                    });
+                    Swal.showValidationMessage(
+                        `Error: ${error}`
+                    )
                 });
-        });
+            }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Retiro exitoso!',
+                text: 'El retiro se realizó correctamente.'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "clientedashboard.html";
+                }
+            });
+        }
+    });
+});
+
 
 
     </script>

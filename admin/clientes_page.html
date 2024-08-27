@@ -15,6 +15,7 @@
     <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </head>
@@ -152,15 +153,23 @@
 
 
     <script> function confirmDelete(cedulaCliente) {
-            var confirmDelete = confirm("¿Está seguro de que desea eliminar este cliente?");
-
-            if (confirmDelete) {
-                // User clicked "OK", proceed with deletion
+        // Mostrar la confirmación de eliminación con SweetAlert
+        Swal.fire({
+            icon: 'warning',
+            title: '¿Está seguro de que desea eliminar este cliente?',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Usuario hizo clic en "Sí, eliminar", proceder con la eliminación
                 $.ajax({
                     url: 'http://localhost:8080/clientes/eliminar/' + cedulaCliente,
                     type: 'DELETE',
                     success: function () {
-                        // Reload the page or update the client list
+                        // Recargar la página o actualizar la lista de clientes
                         location.reload();
                     },
                     error: function (error) {
@@ -168,7 +177,8 @@
                     }
                 });
             }
-        }
+        });
+    }
     </script>
 
 </body>

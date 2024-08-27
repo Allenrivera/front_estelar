@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
     <link rel="stylesheet" href="static/css/app.css">
     <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+    <!-- Incluir SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -81,7 +83,7 @@
             var cedulaCliente = obtenerCedulaClienteDesdeURL();
 
             $.ajax({
-                url: 'http://localhost:8080/clientes/obtenerPorCedula/' + cedulaCliente,
+                url: 'https://24405n8w-8080.use2.devtunnels.ms/clientes/obtenerPorCedula/' + cedulaCliente,
                 type: 'GET',
                 dataType: 'json',
                 success: function (cliente) {
@@ -106,13 +108,21 @@
                 };
 
                 $.ajax({
-                    url: 'http://localhost:8080/clientes/actualizar/' + formData.cedulaCliente,
+                    url: 'https://24405n8w-8080.use2.devtunnels.ms/clientes/actualizar/' + formData.cedulaCliente,
                     type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
                     success: function () {
-
-                        window.location.href = 'clientes_page.html';
+                        // Mostrar la alerta de éxito
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Cliente actualizado exitosamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(function () {
+                            // Redireccionar a la lista de clientes después de mostrar la alerta
+                            window.location.href = 'clientes_page.html';
+                        });
                     },
                     error: function (error) {
                         console.error('Error updating client:', error);

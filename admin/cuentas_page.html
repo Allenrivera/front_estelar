@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
     <link rel="stylesheet" href="static/css/app.css">
     <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 
@@ -135,18 +137,24 @@
     }
 
     function cambiarEstadoCuenta(numeroCta, nuevoEstado) {
-
-        if (confirm('¿estas seguro que deseas cambiar el estado de la cuenta?')) {
-
-            fetch(`http://localhost:8080/cuenta/${numeroCta}/cambiar-estado?estado=${nuevoEstado}`, { method: 'PUT' })
-                .then(() => {
-                    // Actualizar la lista de cuentas después de cambiar el estado
-                    document.getElementById('cuentas-list').innerHTML = '';
-                    loadCuentas();
-                })
-                .catch(error => console.error('Error cambiando el estado de la cuenta:', error));
+            if (confirm('¿Estás seguro que deseas cambiar el estado de la cuenta?')) {
+                fetch(`http://localhost:8080/cuenta/${numeroCta}/cambiar-estado?estado=${nuevoEstado}`, { method: 'PUT' })
+                    .then(() => {
+                        // Mostrar la alerta de éxito utilizando SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Estado de la cuenta cambiado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            // Actualizar la lista de cuentas después de cambiar el estado
+                            document.getElementById('cuentas-list').innerHTML = '';
+                            loadCuentas();
+                        });
+                    })
+                    .catch(error => console.error('Error cambiando el estado de la cuenta:', error));
+            }
         }
-    }
 
     function confirmarEliminarCuenta(numeroCta) {
         if (confirm('¿Estás seguro de que quieres eliminar esta cuenta?')) {

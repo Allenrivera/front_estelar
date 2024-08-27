@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="static/css/perfect-scrollbar.css">
     <link rel="stylesheet" href="static/css/app.css">
     <link rel="shortcut icon" href="img/favicon.svg" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -45,7 +46,7 @@
 
                         <div class="mb-3">
                             <label for="fechaApertura" class="form-label">Fecha de Apertura:</label>
-                            <input type="date" class="form-control" id="fechaApertura" name="fechaApertura" required>
+                            <input type="date" class="form-control" id="fechaApertura" name="fechaApertura" required readonly>
                         </div>
 
                         <div class="mb-3">
@@ -83,6 +84,18 @@
 <script src="static/js/main.js"></script>
 
 <script>
+    function obtenerFechaActual() {
+        const fechaActual = new Date();
+        const year = fechaActual.getFullYear();
+        const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+        const day = fechaActual.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    document.getElementById('fechaApertura').value = obtenerFechaActual();
+</script>
+
+<script>
     function crearCuenta() {
         var titular = document.getElementById('titular').value; // Obtener el número del titular
         var saldo = parseFloat(document.getElementById('saldo').value);
@@ -112,8 +125,15 @@
         })
             .then(response => {
                 if (response.status === 201) {
-                    alert('Cuenta creada exitosamente');
-                    window.location.href = "cuentas_page.html"; // Redirige a la página de inicio del cliente
+                    // Mostrar la alerta de éxito utilizando SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cuenta asignada al cliente correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = "cuentas_page.html"; // Redirige a la página de inicio del cliente
+                    });
                 } else if (response.status === 409) {
                     alert('Error: La cuenta ya existe para este cliente');
                 } else {
